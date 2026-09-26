@@ -1,113 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>导入Apple Music快捷指令</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f7;
-        }
-        .container {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        h1 { color: #1d1d1f; font-size: 24px; margin-bottom: 10px; }
-        p { color: #6e6e73; font-size: 15px; line-height: 1.6; }
-        .btn {
-            display: block; width: 100%; padding: 16px; margin: 20px 0;
-            background: #007aff; color: white; border: none; border-radius: 12px;
-            font-size: 17px; font-weight: 600; cursor: pointer; text-align: center;
-        }
-        .btn:hover { background: #0051d5; }
-        .btn-secondary { background: #34c759; }
-        .btn-secondary:hover { background: #248a3d; }
-        textarea {
-            width: 100%; height: 250px; padding: 12px; border: 1px solid #d2d2d7;
-            border-radius: 8px; font-family: monospace; font-size: 12px; margin: 10px 0;
-            box-sizing: border-box;
-        }
-        .step { background: #f5f5f7; padding: 15px; border-radius: 10px; margin: 15px 0; }
-        .step-number {
-            display: inline-block; width: 24px; height: 24px; background: #007aff;
-            color: white; border-radius: 50%; text-align: center; line-height: 24px;
-            font-weight: bold; margin-right: 10px;
-        }
-        .hidden { display: none; }
-    </style>
+    <title>下载快捷指令</title>
 </head>
 <body>
-    <div class="container">
-        <h1>🎵 文本导入 Apple Music</h1>
-        <p>支持选择播放列表，一键导入多首歌曲</p>
-        
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>点击按钮创建快捷指令</strong>
-        </div>
-        
-        <button class="btn" onclick="createShortcut()">创建快捷指令</button>
-        
-        <div id="fallback" class="hidden">
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>如果按钮没反应，复制代码手动导入</strong>
-                <textarea id="shortcutCode" readonly>{
-  "WFWorkflowActions": [
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.askforinput", "WFWorkflowActionParameters": {"WFAskActionPrompt": "粘贴歌曲文本（每行：歌名 艺术家）", "WFInputType": "Text", "WFAllowsMultipleLines": true}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.splittext", "WFWorkflowActionParameters": {"WFTextSeparator": "New Lines", "WFText": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Provided Input"}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.getplaylists", "WFWorkflowActionParameters": {"WFGetPlaylistsType": "All", "WFMusicLibraryType": "Playlist"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.choosefromlist", "WFWorkflowActionParameters": {"WFChooseFromListActionPrompt": "选择要添加到的播放列表", "WFInput": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Playlists"}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "目标播放列表", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Chosen Item"}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each", "WFWorkflowActionParameters": {"WFRepeatItems": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Split Text"}}}}, "WFControlFlowMode": 0, "GroupingIdentifier": "loop1"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.matchtext", "WFWorkflowActionParameters": {"WFText": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "CurrentItem"}}}}, "WFMatchTextPattern": "^(.*)\\s+(.+)$"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "歌名", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFCoercionVariableAggrandizement", "CoercionItemClass": "WFStringContentItem"}, {"Type": "WFSubrangeVariableAggrandizement", "Start": 1, "End": 2}]}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "艺术家", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFCoercionVariableAggrandizement", "CoercionItemClass": "WFStringContentItem"}, {"Type": "WFSubrangeVariableAggrandizement", "Start": 2, "End": 3}]}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.searchitunes", "WFWorkflowActionParameters": {"WFSearchTerm": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼ ￼", "attachmentsByRange": {"{0, 1}": {"Type": "Variable", "VariableName": "歌名"}, "{2, 1}": {"Type": "Variable", "VariableName": "艺术家"}}}}, "WFSearchMediaType": "Music", "WFSearchEntity": "song", "WFSearchLimit": 1}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.addmusictoplaylist", "WFWorkflowActionParameters": {"WFMusic": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Search Apple Music"}}}}, "WFPlaylist": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "Variable", "VariableName": "目标播放列表"}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each", "WFWorkflowActionParameters": {"WFControlFlowMode": 2, "GroupingIdentifier": "loop1"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.shownotification", "WFWorkflowActionParameters": {"WFNotificationTitle": "导入完成", "WFNotificationBody": "已添加到播放列表"}}
-  ]
-}</textarea>
-                <button class="btn btn-secondary" onclick="copyCode()">复制代码</button>
-            </div>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">3</span>
-            <strong>使用方法</strong>
-            <p>1. 运行快捷指令<br>2. 粘贴歌曲文本 → 完成<br>3. 选择播放列表<br>4. 等待导入完成</p>
-        </div>
-    </div>
-    
-    <script>
-        function createShortcut() {
-            const code = document.getElementById('shortcutCode').value;
-            const encoded = encodeURIComponent(code);
-            window.location.href = 'shortcuts://create-shortcut?name=导入AppleMusic&actions=' + encoded;
-            setTimeout(() => {
-                document.getElementById('fallback').classList.remove('hidden');
-            }, 2000);
-        }
-        
-        function copyCode() {
-            const textarea = document.getElementById('shortcutCode');
-            textarea.select();
-            document.execCommand('copy');
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(textarea.value).then(() => {
-                    alert('代码已复制！\n\n请打开快捷指令 App → 创建快捷指令 → 粘贴');
-                });
-            } else {
-                alert('代码已复制！\n\n请打开快捷指令 App → 创建快捷指令 → 粘贴');
-            }
-        }
-    </script>
+    <h1>下载快捷指令文件</h1>
+    <p>点击下载，然后在文件 App 中打开</p>
+    <a href="shortcut.shortcut" download>下载 shortcut.shortcut</a>
 </body>
 </html>
