@@ -18,87 +18,37 @@
             padding: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #1d1d1f;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #6e6e73;
-            font-size: 15px;
-            line-height: 1.6;
-        }
+        h1 { color: #1d1d1f; font-size: 24px; margin-bottom: 10px; }
+        p { color: #6e6e73; font-size: 15px; line-height: 1.6; }
         .btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            margin: 20px 0;
-            background: #007aff;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
+            display: block; width: 100%; padding: 16px; margin: 20px 0;
+            background: #007aff; color: white; border: none; border-radius: 12px;
+            font-size: 17px; font-weight: 600; cursor: pointer; text-align: center;
         }
-        .btn:hover {
-            background: #0051d5;
-        }
-        .btn-secondary {
-            background: #34c759;
-        }
-        .btn-secondary:hover {
-            background: #248a3d;
-        }
+        .btn:hover { background: #0051d5; }
+        .btn-secondary { background: #34c759; }
+        .btn-secondary:hover { background: #248a3d; }
         textarea {
-            width: 100%;
-            height: 200px;
-            padding: 12px;
-            border: 1px solid #d2d2d7;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 13px;
-            margin: 10px 0;
+            width: 100%; height: 250px; padding: 12px; border: 1px solid #d2d2d7;
+            border-radius: 8px; font-family: monospace; font-size: 12px; margin: 10px 0;
             box-sizing: border-box;
         }
-        .step {
-            background: #f5f5f7;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-        }
+        .step { background: #f5f5f7; padding: 15px; border-radius: 10px; margin: 15px 0; }
         .step-number {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: #007aff;
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
-            font-weight: bold;
-            margin-right: 10px;
+            display: inline-block; width: 24px; height: 24px; background: #007aff;
+            color: white; border-radius: 50%; text-align: center; line-height: 24px;
+            font-weight: bold; margin-right: 10px;
         }
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎵 文本导入 Apple Music</h1>
-        <p>点击下方按钮，自动创建快捷指令</p>
+        <p>支持选择播放列表，一键导入多首歌曲</p>
         
         <div class="step">
             <span class="step-number">1</span>
-            <strong>复制你的歌曲文本</strong>
-            <p>例如：<br>Everything MISIA<br>青春アミーゴ 修二と彰<br>LA・LA・LA LOVE SONG 久保田利伸</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-number">2</span>
             <strong>点击按钮创建快捷指令</strong>
         </div>
         
@@ -106,20 +56,23 @@
         
         <div id="fallback" class="hidden">
             <div class="step">
-                <span class="step-number">3</span>
+                <span class="step-number">2</span>
                 <strong>如果按钮没反应，复制代码手动导入</strong>
                 <textarea id="shortcutCode" readonly>{
   "WFWorkflowActions": [
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.getclipboard"},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.splittext", "WFWorkflowActionParameters": {"WFTextSeparator": "New Lines"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each", "WFWorkflowActionParameters": {"WFControlFlowMode": 0, "GroupingIdentifier": "loop1"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.matchtext", "WFWorkflowActionParameters": {"WFMatchTextPattern": "^(.*)\\s+(.+)$"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "歌名", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFSubrangeVariableAggrandizement", "Start": 1, "End": 2}]}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "艺术家", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFSubrangeVariableAggrandizement", "Start": 2, "End": 3}]}}}}}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.searchitunes", "WFWorkflowActionParameters": {"WFSearchMediaType": "Music", "WFSearchEntity": "song", "WFSearchLimit": 1}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.addmusictolibrary"},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.askforinput", "WFWorkflowActionParameters": {"WFAskActionPrompt": "粘贴歌曲文本（每行：歌名 艺术家）", "WFInputType": "Text", "WFAllowsMultipleLines": true}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.splittext", "WFWorkflowActionParameters": {"WFTextSeparator": "New Lines", "WFText": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Provided Input"}}}}}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.getplaylists", "WFWorkflowActionParameters": {"WFGetPlaylistsType": "All", "WFMusicLibraryType": "Playlist"}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.choosefromlist", "WFWorkflowActionParameters": {"WFChooseFromListActionPrompt": "选择要添加到的播放列表", "WFInput": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Playlists"}}}}}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "目标播放列表", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Chosen Item"}}}}}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each", "WFWorkflowActionParameters": {"WFRepeatItems": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Split Text"}}}}, "WFControlFlowMode": 0, "GroupingIdentifier": "loop1"}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.matchtext", "WFWorkflowActionParameters": {"WFText": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "CurrentItem"}}}}, "WFMatchTextPattern": "^(.*)\\s+(.+)$"}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "歌名", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFCoercionVariableAggrandizement", "CoercionItemClass": "WFStringContentItem"}, {"Type": "WFSubrangeVariableAggrandizement", "Start": 1, "End": 2}]}}}}}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.setvariable", "WFWorkflowActionParameters": {"WFVariableName": "艺术家", "WFVariableValue": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Matches", "Aggrandizements": [{"Type": "WFCoercionVariableAggrandizement", "CoercionItemClass": "WFStringContentItem"}, {"Type": "WFSubrangeVariableAggrandizement", "Start": 2, "End": 3}]}}}}}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.searchitunes", "WFWorkflowActionParameters": {"WFSearchTerm": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼ ￼", "attachmentsByRange": {"{0, 1}": {"Type": "Variable", "VariableName": "歌名"}, "{2, 1}": {"Type": "Variable", "VariableName": "艺术家"}}}}, "WFSearchMediaType": "Music", "WFSearchEntity": "song", "WFSearchLimit": 1}},
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.addmusictoplaylist", "WFWorkflowActionParameters": {"WFMusic": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "ActionOutput", "OutputName": "Search Apple Music"}}}}, "WFPlaylist": {"WFSerializationType": "WFTextTokenString", "Value": {"string": "￼", "attachmentsByRange": {"{0, 1}": {"Type": "Variable", "VariableName": "目标播放列表"}}}}}},
     {"WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each", "WFWorkflowActionParameters": {"WFControlFlowMode": 2, "GroupingIdentifier": "loop1"}},
-    {"WFWorkflowActionIdentifier": "is.workflow.actions.shownotification", "WFWorkflowActionParameters": {"WFNotificationTitle": "导入完成", "WFNotificationBody": "已处理所有歌曲"}}
+    {"WFWorkflowActionIdentifier": "is.workflow.actions.shownotification", "WFWorkflowActionParameters": {"WFNotificationTitle": "导入完成", "WFNotificationBody": "已添加到播放列表"}}
   ]
 }</textarea>
                 <button class="btn btn-secondary" onclick="copyCode()">复制代码</button>
@@ -127,22 +80,17 @@
         </div>
         
         <div class="step">
-            <span class="step-number">4</span>
+            <span class="step-number">3</span>
             <strong>使用方法</strong>
-            <p>1. 复制歌曲文本<br>2. 运行快捷指令<br>3. 等待导入完成</p>
+            <p>1. 运行快捷指令<br>2. 粘贴歌曲文本 → 完成<br>3. 选择播放列表<br>4. 等待导入完成</p>
         </div>
     </div>
     
     <script>
         function createShortcut() {
-            // 尝试通过 URL Scheme 创建
             const code = document.getElementById('shortcutCode').value;
             const encoded = encodeURIComponent(code);
-            
-            // 方法1：尝试 shortcuts://create-shortcut
             window.location.href = 'shortcuts://create-shortcut?name=导入AppleMusic&actions=' + encoded;
-            
-            // 如果失败，显示备选方案
             setTimeout(() => {
                 document.getElementById('fallback').classList.remove('hidden');
             }, 2000);
@@ -152,8 +100,6 @@
             const textarea = document.getElementById('shortcutCode');
             textarea.select();
             document.execCommand('copy');
-            
-            // 尝试通过剪贴板 API
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(textarea.value).then(() => {
                     alert('代码已复制！\n\n请打开快捷指令 App → 创建快捷指令 → 粘贴');
